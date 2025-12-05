@@ -9,7 +9,6 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { Contrato } from '../entities/contratos.entity';
 import { ContratoService } from '../services/contratos.service';
@@ -22,6 +21,12 @@ export class ContratosController {
   @HttpCode(HttpStatus.OK)
   findAll(): Promise<Contrato[]> {
     return this.contratoService.findAll();
+  }
+  
+  @Get('destino/:destino')
+  @HttpCode(HttpStatus.OK)
+  findByDestino(@Param('destino') destino: string): Promise<Contrato[]> {
+    return this.contratoService.findByDestino(destino);
   }
 
   @Get(':id')
@@ -49,11 +54,5 @@ export class ContratosController {
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.contratoService.delete(id);
-  }
-
-  @Get('/destino')
-  @HttpCode(HttpStatus.OK)
-  findByDestino(@Query('destino') destino: string): Promise<Contrato[]> {
-    return this.contratoService.findByDestino(destino);
   }
 }
