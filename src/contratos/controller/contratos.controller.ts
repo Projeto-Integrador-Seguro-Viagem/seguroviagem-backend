@@ -13,7 +13,7 @@ import {
 import { Contrato } from '../entities/contratos.entity';
 import { ContratoService } from '../services/contratos.service';
 
-@Controller('/contratos')
+@Controller('contratos')
 export class ContratosController {
   constructor(private readonly contratoService: ContratoService) {}
 
@@ -23,10 +23,10 @@ export class ContratosController {
     return this.contratoService.findAll();
   }
 
-  @Get('/:id')
+  @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findById(@Param('id', ParseIntPipe) id_Post): Promise<Contrato> {
-    return this.contratoService.findById(id_Post);
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Contrato> {
+    return this.contratoService.findById(id);
   }
 
   @Post()
@@ -35,13 +35,16 @@ export class ContratosController {
     return this.contratoService.create(contrato);
   }
 
-  @Put()
+  @Put(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Body() contrato: Contrato): Promise<Contrato> {
-    return this.contratoService.create(contrato);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() contrato: Partial<Contrato>,
+  ): Promise<Contrato> {
+    return this.contratoService.update(id, contrato);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.contratoService.delete(id);

@@ -17,7 +17,7 @@ import { ContratoModule } from './contratos/contratos.module';
       synchronize: true,
       logging: true,
     }),
-    ContratoModule
+   ContratoModule,
   ],
 
   controllers: [],
