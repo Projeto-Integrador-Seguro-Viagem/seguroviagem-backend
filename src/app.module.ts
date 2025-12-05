@@ -11,7 +11,7 @@ import { ContratoModule } from './seguro/seguro.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '83626122.Ends',
+      password: 'root',
       database: 'db_seguroviagem',
       entities: [Contrato],
       synchronize: true,
