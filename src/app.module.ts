@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contrato } from './seguro/entities/contrato.entity';
-import { ContratoModule } from './seguro/seguro.module';
+import { Contrato } from './contratos/entities/contratos.entity';
+import { ContratoModule } from './contratos/contratos.module';
 
 // Decorator - Eqtiqueta de metadados eles mudam o comprtamento inicial de uma classe ou um metodo
 @Module({
