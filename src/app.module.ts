@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Contrato } from './seguro/entities/contrato.entity';
+import { ContratoModule } from './seguro/seguro.module';
 
 // Decorator - Eqtiqueta de metadados eles mudam o comprtamento inicial de uma classe ou um metodo
 @Module({
@@ -9,12 +11,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '83626122.Ends',
       database: 'db_seguroviagem',
-      entities: [],
+      entities: [Contrato],
       synchronize: true,
       logging: true,
     }),
+    ContratoModule
   ],
 
   controllers: [],
