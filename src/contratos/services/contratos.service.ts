@@ -42,4 +42,9 @@ export class ContratoService {
   async delete(id: number): Promise<DeleteResult> {
     return await this.contratoRepository.delete(id);
   }
+
+  //Encontrar por destino
+  async findByDestino(destino: string): Promise<Contrato[]> {
+  return this.contratoRepository.find({ where: { destino } });
+}
 }
