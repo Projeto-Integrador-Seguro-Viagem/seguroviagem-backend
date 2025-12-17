@@ -18,12 +18,23 @@ export class TipoService {
         return this.tipoRepository.find({ relations: ['usuario', 'contrato'] });
     }
 
+
+    findByNome(nome: string) {
+        return this.tipoRepository.find({ 
+            where: { nome: nome }, 
+            relations: ['usuario', 'contrato'] 
+        });
+    }
+
+
     findOne(id: number) {
         return this.tipoRepository.findOne({ where: { id }, relations: ['usuario', 'contrato'] });
     }
 
-    update(id: number, updateTipoDto: Partial<Tipo>) {
-        return this.tipoRepository.update(id, updateTipoDto);
+
+    async update(id: number, updateTipoDto: Partial<Tipo>) {
+        await this.tipoRepository.update(id, updateTipoDto);
+        return this.findOne(id); 
     }
 
     remove(id: number) {

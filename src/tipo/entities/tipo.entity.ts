@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Contrato } from '../../contratos/entities/contratos.entity';
+import { Usuario } from '../../usuarios/entities/usuarios.entity';
 
 @Entity({ name: 'tb_tipo' })
 export class Tipo {
