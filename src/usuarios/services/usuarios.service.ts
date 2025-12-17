@@ -44,29 +44,34 @@ export class UsuarioService {
 }
 
 
-    async create(usuario: Usuario): Promise<Usuario> {
-        
-        const buscaUsuario = await this.findByUsuario(usuario.usuario);
+async create(usuario: Usuario): Promise<Usuario> {
+  const buscaUsuario = await this.usuarioRepository.findOne({
+    where: { usuario: usuario.usuario },
+  });
 
-        if (buscaUsuario)
-            throw new HttpException("Este Usuário já existe!", HttpStatus.BAD_REQUEST);
+  if (buscaUsuario) {
+    throw new HttpException("Este Usuário já existe!", HttpStatus.BAD_REQUEST);
+  }
 
-        return await this.usuarioRepository.save(usuario);
+  return await this.usuarioRepository.save(usuario);
+}
 
-    }
+ async update(usuario: Usuario): Promise<Usuario> {
+  const usuarioExistente = await this.findById(usuario.id);
 
-    async update(usuario: Usuario): Promise<Usuario> {
+  const buscaUsuario = await this.usuarioRepository.findOne({
+    where: { usuario: usuario.usuario },
+  });
 
-        await this.findById(usuario.id);
+  if (buscaUsuario && buscaUsuario.id !== usuario.id) {
+    throw new HttpException('Usuário (e-mail) já Cadastrado!', HttpStatus.BAD_REQUEST);
+  }
 
-        const buscaUsuario = await this.findByUsuario(usuario.usuario);
-
-        if (buscaUsuario && buscaUsuario.id !== usuario.id)
-            throw new HttpException('Usuário (e-mail) já Cadastrado!', HttpStatus.BAD_REQUEST);
-
-        return await this.usuarioRepository.save(usuario);
-
-   }
+  return await this.usuarioRepository.save({
+    ...usuarioExistente,
+    ...usuario, 
+  });
+}
 
     async delete(id: number): Promise<DeleteResult> {
         await this.findById(id);

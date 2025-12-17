@@ -30,7 +30,7 @@ export class ApoliceController {
     return this.apoliceService.create(apolice);
   }
 
-  @Put(':id')
+  @Put('/:id')
   @HttpCode(HttpStatus.OK)
   update(
     @Param('id', ParseIntPipe) id: number,

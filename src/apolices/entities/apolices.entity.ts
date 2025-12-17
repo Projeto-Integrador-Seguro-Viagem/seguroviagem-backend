@@ -1,8 +1,9 @@
 import { IsNotEmpty } from 'class-validator';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Usuario } from '../../usuarios/entities/usuarios.entity';
+import { Tipo } from '../../tipo/entities/tipo.entity';
 
-@Entity({ name: 'tb_contratos' })
+@Entity({ name: 'tb_apolices' })
 export class Apolice {
   @PrimaryGeneratedColumn()
   id: number;
@@ -31,14 +32,14 @@ export class Apolice {
   @Column({ length: 100, nullable: false })
   cobertura_escolhida: string;
 
-  @ManyToOne(() => Usuario, (usuario) => usuario.apolices, {  
-        onDelete: "CASCADE" 
-   })
-    usuario: Usuario
-  
-  // @ManyToOne(() => Tipo, (tipo) => tipo.apolice, {  
-        onDelete: "CASCADE"
-   //})
-    //tipo: Tipo
-}
+  @ManyToOne(() => Usuario, (usuario) => usuario.apolices, {
+    onDelete: 'CASCADE',
+  })
+  usuario: Usuario;
 
+  @ManyToOne(() => Tipo, (tipo) => tipo.apolice, {
+    onDelete: 'CASCADE',
+  })
+  tipo: Tipo;
+
+}
