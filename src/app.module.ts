@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contrato } from './contratos/entities/contratos.entity';
-import { ContratoModule } from './contratos/contratos.module';
+import { Usuario } from './usuarios/entities/usuarios.entity';
+import { UsuarioModule } from './usuarios/usuarios.module';
+import { ApoliceModule } from './apolices/apolices.module';
+import { Apolice } from './apolices/entities/apolices.entity';
+import { TipoModule } from './tipo/tipo.module';
+import { Tipo } from './tipo/entities/tipo.entity';
 
 @Module({
   imports: [
@@ -12,11 +16,13 @@ import { ContratoModule } from './contratos/contratos.module';
       username: 'root',
       password: 'root',
       database: 'db_seguroviagem',
-      entities: [Contrato],
+      entities: [Apolice, Usuario, Tipo],
       synchronize: true,
       logging: true,
     }),
-   ContratoModule,
+   ApoliceModule,
+   UsuarioModule,
+   TipoModule
   ],
 
   controllers: [],
