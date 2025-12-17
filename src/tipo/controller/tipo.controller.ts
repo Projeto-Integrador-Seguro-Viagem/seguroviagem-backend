@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Put } from '@nestjs/common';
 import { TipoService } from '../services/tipo.service';
 import { Tipo } from '../entities/tipo.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 
-
+@UseGuards(JwtAuthGuard)
 @Controller('tipo')
 export class TipoController {
     constructor(private readonly tipoService: TipoService) { }

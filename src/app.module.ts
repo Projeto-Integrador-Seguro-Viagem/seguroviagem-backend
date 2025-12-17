@@ -6,6 +6,7 @@ import { ApoliceModule } from './apolices/apolices.module';
 import { Apolice } from './apolices/entities/apolices.entity';
 import { TipoModule } from './tipo/tipo.module';
 import { Tipo } from './tipo/entities/tipo.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { Tipo } from './tipo/entities/tipo.entity';
     }),
    ApoliceModule,
    UsuarioModule,
-   TipoModule
+   TipoModule,
+   AuthModule
   ],
 
   controllers: [],
