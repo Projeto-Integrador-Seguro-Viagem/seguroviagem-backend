@@ -61,10 +61,9 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
   });
 
   it("03 - Deve Autenticar o Usuário (Login)", async () => {
-    // CORREÇÃO: Verifique se sua rota de login é '/auth/login' ou '/usuarios/logar'
-    // Como não está no UsuarioController, assumi que está em um AuthController
+    // CORREÇÃO: A rota correta baseada no seu AuthController é /usuarios/logar
     const resposta = await request(app.getHttpServer())
-    .post("/auth/login") 
+    .post("/usuarios/logar") 
     .send({
       usuario: 'root@root.com',
       senha: 'rootroot',
@@ -76,15 +75,15 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
 
   it("04 - Deve Listar todos os Usuários", async () => {
     return request(app.getHttpServer())
-    .get('/usuarios') // CORREÇÃO: Removido o '/all' que não existe no controller
-    .set('Authorization', `${token}`)
+    .get('/usuarios')
+    .set('Authorization', `${token}`) // O token agora deve vir preenchido do teste 03
     .send({})
     .expect(200)
   })
 
   it("05 - Deve Atualizar um Usuário", async () => {
     return request(app.getHttpServer())
-    .put(`/usuarios/${usuarioId}`) // CORREÇÃO: Adicionado o ID na URL
+    .put(`/usuarios/${usuarioId}`)
     .set('Authorization', `${token}`)
     .send({
       id: usuarioId,
