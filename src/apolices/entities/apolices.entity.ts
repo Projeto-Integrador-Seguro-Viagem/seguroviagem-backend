@@ -1,10 +1,15 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Usuario } from '../../usuarios/entities/usuarios.entity';
 
 @Entity({ name: 'tb_contratos' })
-export class Contrato {
+export class Apolice {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @IsNotEmpty()
+  @Column({ length: 100, nullable: false })
+  nome: string;
 
   @IsNotEmpty()
   @Column({ length: 100, nullable: false })
@@ -25,5 +30,15 @@ export class Contrato {
   @IsNotEmpty()
   @Column({ length: 100, nullable: false })
   cobertura_escolhida: string;
+
+  @ManyToOne(() => Usuario, (usuario) => usuario.apolices, {  
+        onDelete: "CASCADE" 
+   })
+    usuario: Usuario
+  
+  // @ManyToOne(() => Tipo, (tipo) => tipo.apolice, {  
+        onDelete: "CASCADE"
+   //})
+    //tipo: Tipo
 }
 
