@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Contrato } from '../../contratos/entities/contratos.entity';
+import { Usuario } from '../../usuarios/entities/usuarios.entity';
+import { Apolice } from '../../apolices/entities/apolices.entity';
 
 @Entity({ name: 'tb_tipo' })
 export class Tipo {
@@ -12,11 +13,12 @@ export class Tipo {
     @Column({ type: 'text' })
     descricao: string;
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.tipos, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Usuario, (usuario) => usuario.tipo, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'usuario_id' })
     usuario: Usuario;
 
-    @ManyToOne(() => Contrato, (contrato) => contrato.tipos, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Apolice, (apolice) => apolice.tipo, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'contrato_id' })
-    contrato: Contrato;
+    contrato: Apolice;
+  apolice: any;
 }

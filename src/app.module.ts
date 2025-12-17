@@ -4,6 +4,8 @@ import { Usuario } from './usuarios/entities/usuarios.entity';
 import { UsuarioModule } from './usuarios/usuarios.module';
 import { ApoliceModule } from './apolices/apolices.module';
 import { Apolice } from './apolices/entities/apolices.entity';
+import { TipoModule } from './tipo/tipo.module';
+import { Tipo } from './tipo/entities/tipo.entity';
 
 @Module({
   imports: [
@@ -14,12 +16,13 @@ import { Apolice } from './apolices/entities/apolices.entity';
       username: 'root',
       password: 'root',
       database: 'db_seguroviagem',
-      entities: [Apolice, Usuario],
+      entities: [Apolice, Usuario, Tipo],
       synchronize: true,
       logging: true,
     }),
    ApoliceModule,
-   UsuarioModule
+   UsuarioModule,
+   TipoModule
   ],
 
   controllers: [],
