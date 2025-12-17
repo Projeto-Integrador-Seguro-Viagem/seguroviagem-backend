@@ -3,7 +3,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Usuario } from '../../usuarios/entities/usuarios.entity';
 import { Tipo } from '../../tipo/entities/tipo.entity';
 
-@Entity({ name: 'tb_contratos' })
+@Entity({ name: 'tb_apolices' })
 export class Apolice {
   @PrimaryGeneratedColumn()
   id: number;
@@ -41,5 +41,5 @@ export class Apolice {
     onDelete: 'CASCADE',
   })
   tipo: Tipo;
-  
+
 }

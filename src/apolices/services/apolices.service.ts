@@ -37,11 +37,15 @@ export class ApoliceService {
   }
 
   //Atualizar
-  async update(id: number, data: Partial<Apolice>): Promise<Apolice> {
-    const apolice = await this.findById(id);
-    const apoliceAtualizada = Object.assign(apolice, data);
-    return await this.apoliceRepository.save(apoliceAtualizada);
-  }
+async update(id: number, data: Partial<Apolice>): Promise<Apolice> {
+  const apolice = await this.findById(id);
+  const apoliceAtualizada = {
+    ...apolice,
+    ...data,
+  };
+
+  return await this.apoliceRepository.save(apoliceAtualizada);
+}
 
   //Deletar
   async delete(id: number): Promise<DeleteResult> {
