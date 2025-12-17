@@ -2,13 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Usuario } from '../entities/usuarios.entity';
-
+import { Bcrypt } from '../../auth/bcrypt/bcrypt';
 
 @Injectable()
 export class UsuarioService {
     constructor(
         @InjectRepository(Usuario)
         private usuarioRepository: Repository<Usuario>,
+        private bcrypt: Bcrypt
     ) { }
 
     async findAll(): Promise<Usuario[]> {
@@ -52,7 +53,8 @@ async create(usuario: Usuario): Promise<Usuario> {
   if (buscaUsuario) {
     throw new HttpException("Este Usuário já existe!", HttpStatus.BAD_REQUEST);
   }
-
+  
+  usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
   return await this.usuarioRepository.save(usuario);
 }
 
@@ -67,6 +69,7 @@ async create(usuario: Usuario): Promise<Usuario> {
     throw new HttpException('Usuário (e-mail) já Cadastrado!', HttpStatus.BAD_REQUEST);
   }
 
+  usuario.senha = await this.bcrypt.criptografarSenha(usuario.senha)
   return await this.usuarioRepository.save({
     ...usuarioExistente,
     ...usuario, 
