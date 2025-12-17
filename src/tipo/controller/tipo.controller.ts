@@ -24,19 +24,19 @@ findByNome(@Param('nome') nome: string) {
     return this.tipoService.findByNome(nome); 
 }
 
-    @Get('calculo-seguro')
-    calculate(
-        @Query('startDate') startDate: string,
-        @Query('endDate') endDate: string,
-        @Query('destination') destination: string,
-        @Query('dailyPrice') dailyPrice: number,
-    ) {
-        return this.tipoService.calculateInsurancePrice(startDate, endDate, destination, dailyPrice);
-    }
+    // @Get('calculo-seguro')
+    // calculate(
+    //     @Query('startDate') startDate: string,
+    //     @Query('endDate') endDate: string,
+    //     @Query('destination') destination: string,
+    //     @Query('dailyPrice') dailyPrice: number,
+    // ) {
+    //     return this.tipoService.calculateInsurancePrice(startDate, endDate, destination, dailyPrice);
+    // }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.tipoService.findOne(+id);
+        return this.tipoService.findById(+id);
     }
 
     @Put(':id') // 1. Adicionado o decorador de rota
