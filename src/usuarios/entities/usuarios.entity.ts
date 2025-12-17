@@ -3,7 +3,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { TipoUsuario } from "../enums/tipo-usuario.enum";
 import { Apolice } from "../../apolices/entities/apolices.entity";
 
-@Entity({ name: "tb_usuarios" })    
+@Entity({ name: "tb_usuarios" })
 export class Usuario {
 
     @PrimaryGeneratedColumn()
@@ -15,9 +15,9 @@ export class Usuario {
 
     @IsNotEmpty()
     @Matches(/^\+[1-9]\d{1,14}$/, {
-    message: 'Telefone deve estar no formato internacional E.164 (ex: +5511999999999)'
-     })
-    @Column({ length: 16, nullable: true})
+        message: 'Telefone deve estar no formato internacional E.164 (ex: +5511999999999)'
+    })
+    @Column({ length: 16, nullable: true })
     telefone: string;
 
     @IsEmail()
@@ -34,9 +34,9 @@ export class Usuario {
     foto: string
 
     @Column({
-    type: 'enum',
-    enum: TipoUsuario,
-    default: TipoUsuario.CLIENTE
+        type: 'simple-enum', // Mudado de 'enum' para 'simple-enum' para suportar SQLite
+        enum: TipoUsuario,
+        default: TipoUsuario.CLIENTE
     })
     tipo: TipoUsuario;
 
