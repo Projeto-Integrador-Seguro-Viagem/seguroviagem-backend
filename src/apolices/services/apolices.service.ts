@@ -2,13 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Apolice } from '../entities/apolices.entity';
+import { TipoService } from '../../tipo/services/tipo.service';
+import { Tipo } from '../../tipo/entities/tipo.entity';
 
 @Injectable()
 export class ApoliceService {
-  constructor(
-    @InjectRepository(Apolice)
-    private apoliceRepository: Repository<Apolice>,
-  ) {}
+constructor(
+  @InjectRepository(Apolice)
+  private readonly apoliceRepository: Repository<Apolice>,
+  private readonly tipoRepository: Repository<Tipo>,
+  private readonly tipoService: TipoService,
+) {}
 
   // Retornar todas
   async findAll(): Promise<Apolice[]> {
@@ -31,10 +35,28 @@ export class ApoliceService {
 
   //CRUD
   //Criar
-  async create(data: Apolice): Promise<Apolice> {
-    const novaApolice = this.apoliceRepository.create(data);
-    return await this.apoliceRepository.save(novaApolice);
+
+  async create(apolice: Apolice): Promise<Apolice> {
+  // garante que o tipo esteja carregado
+  const tipo = await this.tipoRepository.findOne({
+    where: { id: apolice.tipo.id },
+  });
+
+  if (!tipo) {
+    throw new Error('Tipo não encontrado');
   }
+
+  // aplica a regra de negócio
+  apolice.valor_plano = this.tipoService.calcularSeguro(
+    apolice.valor_plano,
+    tipo,
+  );
+
+  apolice.tipo = tipo;
+
+  return this.apoliceRepository.save(apolice);
+}
+
 
   //Atualizar
 async update(id: number, data: Partial<Apolice>): Promise<Apolice> {

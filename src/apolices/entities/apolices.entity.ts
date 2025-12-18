@@ -37,7 +37,7 @@ export class Apolice {
   })
   usuario: Usuario;
 
-  @ManyToOne(() => Tipo, (tipo) => tipo.apolice, {
+  @ManyToOne(() => Tipo, (tipo) => tipo.apolices, {
     onDelete: 'CASCADE',
   })
   tipo: Tipo;
