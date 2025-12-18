@@ -43,9 +43,26 @@ export class TipoService {
     return this.findById(id);
   }
 
-    remove(id: number) {
+    delete(id: number) {
         return this.tipoRepository.delete(id);
     }
+
+    
+    calcularSeguro(valorBase: number, tipo: Tipo): number {
+  const nomePlano = tipo.nome.toUpperCase();
+
+  if (nomePlano.includes('ESTADOS UNIDOS') || nomePlano.includes('CANADA')) {
+    return Number((valorBase * 1.2).toFixed(2));
+  }
+
+  return Number(valorBase.toFixed(2));
+    }
+
+
+
+
+
+
 
     // calculateInsurancePrice(startDate: string, endDate: string, destination: string, dailyPrice: number) {
     //     const start = new Date(startDate);

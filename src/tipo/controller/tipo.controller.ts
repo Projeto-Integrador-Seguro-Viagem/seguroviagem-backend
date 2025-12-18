@@ -36,7 +36,7 @@ findByNome(@Param('nome') nome: string) {
     // }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findById(@Param('id') id: string) { 
         return this.tipoService.findById(+id);
     }
 
@@ -47,7 +47,7 @@ findByNome(@Param('nome') nome: string) {
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.tipoService.remove(+id);
+    delete(@Param('id') id: string) {
+        return this.tipoService.delete(+id);
     }
 }
