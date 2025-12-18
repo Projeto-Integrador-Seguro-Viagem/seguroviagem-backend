@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Tipo } from '../entities/tipo.entity';
 
 @Injectable()
@@ -18,13 +18,13 @@ export class TipoService {
         return await this.tipoRepository.find();
     }
 
-
-    findByNome(nome: string) {
-        return this.tipoRepository.find({ 
-            where: { nome: nome }
-        });
-    }
-
+async findByNome(nome: string): Promise<Tipo[]> {
+  return await this.tipoRepository.find({
+    where: {
+      nome: ILike(`%${nome}%`), 
+    },
+  });
+}
 
     async findById(id: number): Promise<Tipo> {
         const tipo = await this.tipoRepository.findOne({
@@ -48,45 +48,25 @@ export class TipoService {
     }
 
     
-    calcularSeguro(valorBase: number, tipo: Tipo): number {
-  const nomePlano = tipo.nome.toUpperCase();
+  calcularSeguro(valorBase: number, tipo: Tipo) {
+  const nomePlano = (tipo?.nome || '').toUpperCase();
+  const isEuaCanada =
+    nomePlano.includes('EUA') ||
+    nomePlano.includes('ESTADOS UNIDOS') ||
+    nomePlano.includes('USA') ||
+    nomePlano.includes('CANADÁ') ||
+    nomePlano.includes('CANADA');
 
-  if (nomePlano.includes('ESTADOS UNIDOS') || nomePlano.includes('CANADA')) {
-    return Number((valorBase * 1.2).toFixed(2));
-  }
+  const fator = isEuaCanada ? 1.2 : 1.0;
+  const total = Number((valorBase * fator).toFixed(2));
 
-  return Number(valorBase.toFixed(2));
-    }
+  return {
+    base: Number(valorBase.toFixed(2)),
+    fator,
+    total,
+    motivo: isEuaCanada ? 'Acréscimo de 20% para EUA/Canadá' : 'Sem acréscimo',
+    tipoNome: tipo?.nome || null,
+  };
+}
 
-
-
-
-
-
-
-    // calculateInsurancePrice(startDate: string, endDate: string, destination: string, dailyPrice: number) {
-    //     const start = new Date(startDate);
-    //     const end = new Date(endDate);
-    //     const diffTime = Math.abs(end.getTime() - start.getTime());
-    //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    //     let total = diffDays * dailyPrice;
-
-    //     const northAmerica = ['EUA', 'CANADA', 'USA', 'CANADÁ', 'INTERNACIONAL', 'NACIONAL']; // Added extra checks strictly speaking user said "EUA/Canada" for logic but "nome" is Int/Nac/EUA. Logic remains same for Price but maybe strictly linked to TIPO nome?
-    //     // User said: "Se o destino for EUA ou Canadá, aplicar um acréscimo de 20%"
-    //     // User ALSO said: "nome (internacional / nacional / EUA)" for Tipo.
-    //     // I will keep the destination logic as string input for the calculation service as before.
-
-    //     const increaseDestinations = ['EUA', 'CANADA', 'USA', 'CANADÁ'];
-    //     if (increaseDestinations.includes(destination.toUpperCase())) {
-    //         total *= 1.2;
-    //     }
-
-    //     return {
-    //         days: diffDays,
-    //         basePrice: diffDays * dailyPrice,
-    //         totalPrice: total,
-    //         destinationModifier: increaseDestinations.includes(destination.toUpperCase()) ? '20% increase' : 'None'
-    //     };
-    // }
 }
