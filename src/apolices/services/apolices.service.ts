@@ -10,6 +10,8 @@ export class ApoliceService {
 constructor(
   @InjectRepository(Apolice)
   private readonly apoliceRepository: Repository<Apolice>,
+
+  @InjectRepository(Tipo)
   private readonly tipoRepository: Repository<Tipo>,
   private readonly tipoService: TipoService,
 ) {}
