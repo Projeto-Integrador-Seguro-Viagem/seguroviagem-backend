@@ -28,6 +28,15 @@ export class Apolice {
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   valor_plano: number;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  valor_calculado: number;
+
+  @Column({ type: 'decimal', precision: 4, scale: 2, nullable: true })
+  fator_aplicado: number;
+
+  @Column({ length: 255, nullable: true })
+  motivo_calculo: string;
+
   @IsNotEmpty()
   @Column({ length: 100, nullable: false })
   cobertura_escolhida: string;
@@ -41,5 +50,4 @@ export class Apolice {
     onDelete: 'CASCADE',
   })
   tipo: Tipo;
-
 }
